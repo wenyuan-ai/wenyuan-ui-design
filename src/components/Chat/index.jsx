@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faDatabase, faBrain } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faDatabase, faBrain, faCode } from '@fortawesome/free-solid-svg-icons';
 import Message from '../Message';
+import TrainingPanel from '../TrainingPanel';
 import { mockMessages } from '../../mock/data';
 import './styles.css';
 
 const Chat = () => {
+  const [showTrainingPanel, setShowTrainingPanel] = useState(false);
   const [messages, setMessages] = useState(mockMessages);
   const [input, setInput] = useState('');
   const [mode, setMode] = useState('query');
@@ -51,20 +53,26 @@ const Chat = () => {
   };
 
   return (
-    <div className="chat">
+    <>
+      <div className={`chat ${showTrainingPanel ? 'with-panel' : ''}`}>
       <div className="messages">
         {messages.map(message => (
           <Message key={message.id} message={message} />
         ))}
         <div ref={messagesEndRef} />
-      </div>
+        </div>
+      <TrainingPanel isVisible={showTrainingPanel} />
+    </>
       
       <form className="input-area" onSubmit={handleSubmit}>
         <div className="mode-selector">
           <button
             type="button"
             className={`mode-button ${mode === 'query' ? 'active' : ''}`}
-            onClick={() => setMode('query')}
+            onClick={() => {
+              setMode('query');
+              setShowTrainingPanel(false);
+            }}
           >
             <FontAwesomeIcon icon={faDatabase} />
             <span>查询数据</span>
@@ -72,10 +80,21 @@ const Chat = () => {
           <button
             type="button"
             className={`mode-button ${mode === 'train' ? 'active' : ''}`}
-            onClick={() => setMode('train')}
+            onClick={() => {
+              setMode('train');
+              setShowTrainingPanel(true);
+            }}
           >
             <FontAwesomeIcon icon={faBrain} />
             <span>模型训练</span>
+          </button>
+          <button
+            type="button"
+            className={`mode-button ${showTrainingPanel ? 'active' : ''}`}
+            onClick={() => setShowTrainingPanel(!showTrainingPanel)}
+          >
+            <FontAwesomeIcon icon={faCode} />
+            <span>训练数据</span>
           </button>
         </div>
         
