@@ -1,12 +1,16 @@
 :root {
-  --primary-color: #2c3e50;
-  --secondary-color: #34495e;
-  --accent-color: #3498db;
-  --background-color: #f5f6fa;
-  --chat-background: #ffffff;
-  --text-color: #2c3e50;
-  --border-color: #e1e8ed;
-  --sidebar-width: 240px;
+  --primary-color: #0a192f;
+  --secondary-color: #172a45;
+  --accent-color: #64ffda;
+  --accent-glow: rgba(100, 255, 218, 0.1);
+  --background-color: #0a192f;
+  --chat-background: #112240;
+  --text-color: #ccd6f6;
+  --text-secondary: #8892b0;
+  --border-color: #233554;
+  --sidebar-width: 280px;
+  --neon-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
+  --glass-effect: rgba(17, 34, 64, 0.7);
 }
 
 * {
@@ -25,4 +29,42 @@ body {
 .app {
   display: flex;
   min-height: 100vh;
+  position: relative;
+}
+
+/* 添加网格背景 */
+.app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.9)),
+    linear-gradient(90deg, var(--border-color) 1px, transparent 1px) 50% 50% / 20px 20px,
+    linear-gradient(var(--border-color) 1px, transparent 1px) 50% 50% / 20px 20px;
+  z-index: -1;
+}
+
+/* 添加光效装饰 */
+.tech-orb {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  filter: blur(80px);
+  z-index: -1;
+}
+
+.tech-orb-1 {
+  top: -150px;
+  right: -150px;
+}
+
+.tech-orb-2 {
+  bottom: -150px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(100, 255, 218, 0.05) 0%, transparent 70%);
 }
