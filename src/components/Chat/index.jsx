@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faDatabase, faBrain } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 
 const Chat = () => {
-  const [messages, setMessages] = React.useState([]);
-  const [input, setInput] = React.useState('');
-  const [mode, setMode] = React.useState('query'); // 'query' or 'train'
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [mode, setMode] = useState('query');
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +24,8 @@ const Chat = () => {
     const newMessage = {
       id: Date.now(),
       text: input,
-      sender: 'user'
+      sender: 'user',
+      status: 'success'
     };
 
     setMessages([...messages, newMessage]);
@@ -25,11 +35,12 @@ const Chat = () => {
     setTimeout(() => {
       const aiResponse = {
         id: Date.now() + 1,
-        text: '这是一个模拟的AI响应...',
-        sender: 'ai'
+        text: '正在分析您的请求，请稍候...',
+        sender: 'ai',
+        status: 'success'
       };
       setMessages(msgs => [...msgs, aiResponse]);
-    }, 1000);
+    }, 500);
   };
 
   return (
@@ -37,11 +48,11 @@ const Chat = () => {
       <div className="messages">
         {messages.map(message => (
           <div key={message.id} className={`message ${message.sender}`}>
-            <div className="message-content">
-              {message.text}
-            </div>
+            <div className="message-content">{message.text}</div>
+            <div className={`status-indicator ${message.status}`}></div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       
       <form className="input-area" onSubmit={handleSubmit}>
@@ -52,7 +63,7 @@ const Chat = () => {
             onClick={() => setMode('query')}
           >
             <FontAwesomeIcon icon={faDatabase} />
-            <span>查询</span>
+            <span>查询数据</span>
           </button>
           <button
             type="button"
@@ -60,7 +71,7 @@ const Chat = () => {
             onClick={() => setMode('train')}
           >
             <FontAwesomeIcon icon={faBrain} />
-            <span>训练</span>
+            <span>模型训练</span>
           </button>
         </div>
         
@@ -73,6 +84,7 @@ const Chat = () => {
           />
           <button type="submit">
             <FontAwesomeIcon icon={faPaperPlane} />
+            <span>发送</span>
           </button>
         </div>
       </form>

@@ -4,13 +4,13 @@ import { faCog, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 
 const Sidebar = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn] = React.useState(false);
 
   return (
     <div className="sidebar">
       <div className="logo">
         <h1>问渊</h1>
-        <p>自然语言数据库交互</p>
+        <p>AI 驱动的数据库交互</p>
       </div>
       
       <div className="sidebar-bottom">
@@ -19,7 +19,7 @@ const Sidebar = () => {
             <div className="avatar">
               <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop" alt="用户头像" />
             </div>
-            <span className="username">用户名</span>
+            <div className="username">Alex Chen</div>
           </div>
         ) : (
           <button className="login-button">
@@ -30,7 +30,7 @@ const Sidebar = () => {
         
         <button className="settings-button">
           <FontAwesomeIcon icon={faCog} />
-          <span>配置</span>
+          <span>系统配置</span>
         </button>
       </div>
     </div>

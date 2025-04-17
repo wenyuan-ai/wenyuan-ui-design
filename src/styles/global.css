@@ -1,16 +1,14 @@
 :root {
-  --primary-color: #0a192f;
-  --secondary-color: #172a45;
-  --accent-color: #64ffda;
-  --accent-glow: rgba(100, 255, 218, 0.1);
-  --background-color: #0a192f;
-  --chat-background: #112240;
-  --text-color: #ccd6f6;
-  --text-secondary: #8892b0;
-  --border-color: #233554;
-  --sidebar-width: 280px;
-  --neon-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
-  --glass-effect: rgba(17, 34, 64, 0.7);
+  --primary-bg: #000000;
+  --secondary-bg: #111111;
+  --accent-color: #00DC82;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --border-color: #222222;
+  --sidebar-width: 300px;
+  --success-color: #00DC82;
+  --error-color: #FF3D71;
+  --warning-color: #FFAA00;
 }
 
 * {
@@ -20,51 +18,33 @@
 }
 
 body {
-  font-family: 'Noto Sans SC', sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .app {
   display: flex;
   min-height: 100vh;
-  position: relative;
 }
 
-/* 添加网格背景 */
-.app::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.9)),
-    linear-gradient(90deg, var(--border-color) 1px, transparent 1px) 50% 50% / 20px 20px,
-    linear-gradient(var(--border-color) 1px, transparent 1px) 50% 50% / 20px 20px;
-  z-index: -1;
+/* 现代滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-/* 添加光效装饰 */
-.tech-orb {
-  position: fixed;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-  filter: blur(80px);
-  z-index: -1;
+::-webkit-scrollbar-track {
+  background: var(--secondary-bg);
 }
 
-.tech-orb-1 {
-  top: -150px;
-  right: -150px;
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
 }
 
-.tech-orb-2 {
-  bottom: -150px;
-  left: -150px;
-  background: radial-gradient(circle, rgba(100, 255, 218, 0.05) 0%, transparent 70%);
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
 }

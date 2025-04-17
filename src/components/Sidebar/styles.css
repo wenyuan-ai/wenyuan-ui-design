@@ -1,50 +1,30 @@
 .sidebar {
   width: var(--sidebar-width);
-  background: var(--glass-effect);
-  backdrop-filter: blur(10px);
-  color: var(--text-color);
-  padding: 2rem;
+  background-color: var(--secondary-bg);
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
   position: fixed;
+  height: 100vh;
   border-right: 1px solid var(--border-color);
-  z-index: 100;
 }
 
 .logo {
-  text-align: center;
-  margin-bottom: 2rem;
-  position: relative;
+  margin-bottom: 48px;
 }
 
 .logo h1 {
-  font-size: 2rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: var(--accent-color);
-  text-shadow: var(--neon-shadow);
+  font-size: 24px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #00DC82 0%, #36E4DA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
 }
 
 .logo p {
-  font-size: 0.9rem;
+  font-size: 14px;
   color: var(--text-secondary);
-}
-
-/* 添加装饰线条 */
-.logo::after {
-  content: '';
-  position: absolute;
-  bottom: -1rem;
-  left: 25%;
-  width: 50%;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    var(--accent-color),
-    transparent
-  );
 }
 
 .sidebar-bottom {
@@ -52,24 +32,19 @@
 }
 
 .user-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: rgba(17, 34, 64, 0.5);
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  margin-bottom: 16px;
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
   border: 2px solid var(--accent-color);
-  box-shadow: var(--neon-shadow);
 }
 
 .avatar img {
@@ -79,33 +54,36 @@
 }
 
 .username {
-  font-size: 1rem;
-  color: var(--accent-color);
-  margin-bottom: 0.5rem;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
 }
 
 .settings-button,
 .login-button {
   width: 100%;
-  padding: 1rem;
+  padding: 12px 16px;
   background: transparent;
-  border: 1px solid var(--accent-color);
-  color: var(--accent-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
-  margin-bottom: 0.8rem;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  gap: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
 .settings-button:hover,
 .login-button:hover {
-  background: var(--accent-glow);
-  box-shadow: var(--neon-shadow);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.settings-button svg,
+.login-button svg {
+  width: 16px;
+  height: 16px;
 }
