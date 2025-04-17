@@ -1,0 +1,220 @@
+.training-modes {
+  padding: 20px;
+  background: var(--secondary-bg);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.mode-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.mode-button {
+  flex: 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mode-button.active {
+  background: var(--accent-color);
+  color: var(--primary-bg);
+  border-color: var(--accent-color);
+}
+
+.mode-button svg {
+  font-size: 20px;
+}
+
+.mode-content {
+  background: var(--primary-bg);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* 文本训练模式 */
+.mode-description {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* 文件训练模式 */
+.file-upload-area {
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.file-label svg {
+  font-size: 32px;
+  color: var(--accent-color);
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 8px;
+  background: var(--secondary-bg);
+  border-radius: 4px;
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  color: var(--error-color);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.file-requirements {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.file-requirements h4 {
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.file-requirements ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.file-requirements li {
+  margin-bottom: 4px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.file-requirements li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+}
+
+/* Q&A训练模式 */
+.qa-input-section {
+  margin-bottom: 24px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.input-group textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.add-pair-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--accent-color);
+  color: var(--primary-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.add-pair-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.qa-pairs-list {
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.qa-pairs-list h4 {
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.qa-pair {
+  background: var(--secondary-bg);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.qa-pair-content {
+  flex: 1;
+}
+
+.pair-item {
+  margin-bottom: 8px;
+}
+
+.pair-item:last-child {
+  margin-bottom: 0;
+}
+
+.pair-item strong {
+  color: var(--accent-color);
+  margin-right: 8px;
+}
+
+.delete-pair {
+  background: none;
+  border: none;
+  color: var(--error-color);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.delete-pair:hover {
+  color: var(--error-color);
+  opacity: 0.8;
+}

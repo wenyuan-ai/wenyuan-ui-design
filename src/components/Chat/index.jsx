@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faDatabase, faBrain, faCode } from '@fortawesome/free-solid-svg-icons';
 import Message from '../Message';
 import TrainingPanel from '../TrainingPanel';
+import TrainingModes from '../TrainingModes';
 import { mockMessages } from '../../mock/data';
 import './styles.css';
 
@@ -96,18 +97,22 @@ const Chat = () => {
             </button>
           </div>
           
+        {mode === 'train' ? (
+          <TrainingModes onModeChange={(trainingMode) => console.log('Training mode:', trainingMode)} />
+        ) : (
           <div className="input-container">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={mode === 'query' ? "输入自然语言查询..." : "输入训练指令..."}
+              placeholder="输入自然语言查询..."
             />
             <button type="submit">
               <FontAwesomeIcon icon={faPaperPlane} />
               <span>发送</span>
             </button>
           </div>
+        )}
         </form>
       </div>
       <TrainingPanel isVisible={showTrainingPanel} />
