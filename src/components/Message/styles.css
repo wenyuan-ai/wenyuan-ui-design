@@ -4,12 +4,13 @@
   border-radius: 12px;
   margin-bottom: 24px;
   position: relative;
+  box-shadow: var(--card-shadow);
 }
 
 .message.user {
   align-self: flex-end;
   background: var(--accent-color);
-  color: var(--primary-bg);
+  color: white;
 }
 
 .message.ai {
@@ -33,7 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--border-color);
+  background: var(--highlight-bg);
 }
 
 .message-time {
@@ -46,14 +47,16 @@
   background: var(--primary-bg);
   border-radius: 8px;
   overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
 .sql-header {
   padding: 8px 12px;
-  background: var(--border-color);
+  background: var(--highlight-bg);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .copy-button {
@@ -74,6 +77,8 @@ pre {
   white-space: pre-wrap;
   font-family: 'Fira Code', monospace;
   font-size: 13px;
+  background: var(--primary-bg);
+  color: var(--text-primary);
 }
 
 .result-block {
@@ -81,6 +86,7 @@ pre {
   padding: 16px;
   background: var(--primary-bg);
   border-radius: 8px;
+  border: 1px solid var(--border-color);
 }
 
 .result-header {
@@ -135,6 +141,7 @@ pre {
   padding: 16px;
   background: var(--primary-bg);
   border-radius: 8px;
+  border: 1px solid var(--border-color);
 }
 
 .analysis-block h4 {
@@ -158,25 +165,4 @@ pre {
   color: var(--accent-color);
   position: absolute;
   left: 0;
-}
-
-.status-indicator {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.status-indicator.success {
-  background: var(--success-color);
-}
-
-.status-indicator.error {
-  background: var(--error-color);
-}
-
-.status-indicator.warning {
-  background: var(--warning-color);
 }
