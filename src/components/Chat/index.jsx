@@ -7,10 +7,10 @@ import { mockMessages } from '../../mock/data';
 import './styles.css';
 
 const Chat = () => {
-  const [showTrainingPanel, setShowTrainingPanel] = useState(false);
   const [messages, setMessages] = useState(mockMessages);
   const [input, setInput] = useState('');
   const [mode, setMode] = useState('query');
+  const [showTrainingPanel, setShowTrainingPanel] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -55,63 +55,63 @@ const Chat = () => {
   return (
     <>
       <div className={`chat ${showTrainingPanel ? 'with-panel' : ''}`}>
-      <div className="messages">
-        {messages.map(message => (
-          <Message key={message.id} message={message} />
-        ))}
-        <div ref={messagesEndRef} />
-        </div>
-      <TrainingPanel isVisible={showTrainingPanel} />
-    </>
-      
-      <form className="input-area" onSubmit={handleSubmit}>
-        <div className="mode-selector">
-          <button
-            type="button"
-            className={`mode-button ${mode === 'query' ? 'active' : ''}`}
-            onClick={() => {
-              setMode('query');
-              setShowTrainingPanel(false);
-            }}
-          >
-            <FontAwesomeIcon icon={faDatabase} />
-            <span>查询数据</span>
-          </button>
-          <button
-            type="button"
-            className={`mode-button ${mode === 'train' ? 'active' : ''}`}
-            onClick={() => {
-              setMode('train');
-              setShowTrainingPanel(true);
-            }}
-          >
-            <FontAwesomeIcon icon={faBrain} />
-            <span>模型训练</span>
-          </button>
-          <button
-            type="button"
-            className={`mode-button ${showTrainingPanel ? 'active' : ''}`}
-            onClick={() => setShowTrainingPanel(!showTrainingPanel)}
-          >
-            <FontAwesomeIcon icon={faCode} />
-            <span>训练数据</span>
-          </button>
+        <div className="messages">
+          {messages.map(message => (
+            <Message key={message.id} message={message} />
+          ))}
+          <div ref={messagesEndRef} />
         </div>
         
-        <div className="input-container">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={mode === 'query' ? "输入自然语言查询..." : "输入训练指令..."}
-          />
-          <button type="submit">
-            <FontAwesomeIcon icon={faPaperPlane} />
-            <span>发送</span>
-          </button>
-        </div>
-      </form>
-    </div>
+        <form className="input-area" onSubmit={handleSubmit}>
+          <div className="mode-selector">
+            <button
+              type="button"
+              className={`mode-button ${mode === 'query' ? 'active' : ''}`}
+              onClick={() => {
+                setMode('query');
+                setShowTrainingPanel(false);
+              }}
+            >
+              <FontAwesomeIcon icon={faDatabase} />
+              <span>查询数据</span>
+            </button>
+            <button
+              type="button"
+              className={`mode-button ${mode === 'train' ? 'active' : ''}`}
+              onClick={() => {
+                setMode('train');
+                setShowTrainingPanel(true);
+              }}
+            >
+              <FontAwesomeIcon icon={faBrain} />
+              <span>模型训练</span>
+            </button>
+            <button
+              type="button"
+              className={`mode-button ${showTrainingPanel ? 'active' : ''}`}
+              onClick={() => setShowTrainingPanel(!showTrainingPanel)}
+            >
+              <FontAwesomeIcon icon={faCode} />
+              <span>训练数据</span>
+            </button>
+          </div>
+          
+          <div className="input-container">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={mode === 'query' ? "输入自然语言查询..." : "输入训练指令..."}
+            />
+            <button type="submit">
+              <FontAwesomeIcon icon={faPaperPlane} />
+              <span>发送</span>
+            </button>
+          </div>
+        </form>
+      </div>
+      <TrainingPanel isVisible={showTrainingPanel} />
+    </>
   );
 };
 

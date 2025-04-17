@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faRobot, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 
 const Message = ({ message }) => {
-  const [copied, setCopied] = React.useState(false);
+  const [copied, setCopied] = useState(false);
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);

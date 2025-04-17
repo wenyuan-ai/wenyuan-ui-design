@@ -23,28 +23,6 @@
   gap: 24px;
 }
 
-.message {
-  max-width: 70%;
-  padding: 16px 20px;
-  border-radius: 12px;
-  position: relative;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.message.user {
-  align-self: flex-end;
-  background: var(--accent-color);
-  color: var(--primary-bg);
-}
-
-.message.ai {
-  align-self: flex-start;
-  background: var(--secondary-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
 .input-area {
   padding: 24px 32px;
   background: var(--secondary-bg);
@@ -125,43 +103,4 @@
 .input-container button svg {
   width: 16px;
   height: 16px;
-}
-
-/* 打字动画效果 */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-.message.ai {
-  position: relative;
-  overflow: hidden;
-}
-
-.message.ai .message-content {
-  display: inline-block;
-  white-space: nowrap;
-  animation: typing 1s steps(40, end);
-}
-
-/* 状态指示器 */
-.status-indicator {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.status-indicator.success {
-  background: var(--success-color);
-}
-
-.status-indicator.error {
-  background: var(--error-color);
-}
-
-.status-indicator.warning {
-  background: var(--warning-color);
 }

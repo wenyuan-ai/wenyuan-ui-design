@@ -159,3 +159,24 @@ pre {
   position: absolute;
   left: 0;
 }
+
+.status-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-indicator.success {
+  background: var(--success-color);
+}
+
+.status-indicator.error {
+  background: var(--error-color);
+}
+
+.status-indicator.warning {
+  background: var(--warning-color);
+}
