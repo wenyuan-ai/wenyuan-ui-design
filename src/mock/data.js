@@ -1,0 +1,108 @@
+export const mockMessages = [
+  {
+    id: 1,
+    text: "查询销售部门2023年的销售额",
+    sender: 'user',
+    timestamp: '2023-12-10 14:23:45',
+    status: 'success'
+  },
+  {
+    id: 2,
+    sender: 'ai',
+    timestamp: '2023-12-10 14:23:46',
+    content: {
+      response: "根据您的查询，我为您生成了以下SQL语句：",
+      sql: `SELECT 
+  department.name, 
+  SUM(sales.amount) as total_sales
+FROM sales 
+JOIN department ON sales.dept_id = department.id
+WHERE department.name = '销售部'
+  AND YEAR(sales.sale_date) = 2023
+GROUP BY department.name;`,
+      result: {
+        total_sales: 1458932.5,
+        chart_type: 'line',
+        data: [
+          { month: '1月', sales: 98234 },
+          { month: '2月', sales: 112534 },
+          { month: '3月', sales: 156734 },
+          { month: '4月', sales: 132845 },
+          { month: '5月', sales: 142534 },
+          { month: '6月', sales: 128956 },
+          { month: '7月', sales: 138453 },
+          { month: '8月', sales: 145234 },
+          { month: '9月', sales: 132453 },
+          { month: '10月', sales: 128945 },
+          { month: '11月', sales: 134534 },
+          { month: '12月', sales: 89476 }
+        ]
+      }
+    },
+    status: 'success'
+  },
+  {
+    id: 3,
+    text: "帮我分析一下销售趋势",
+    sender: 'user',
+    timestamp: '2023-12-10 14:24:30',
+    status: 'success'
+  },
+  {
+    id: 4,
+    sender: 'ai',
+    timestamp: '2023-12-10 14:24:31',
+    content: {
+      response: "根据销售数据分析，我发现以下趋势：\n\n1. 销售高峰期出现在3月份，达到156,734元\n2. 全年销售整体呈现波动上升趋势\n3. 12月份出现明显下滑，建议关注原因\n4. 第一季度表现最好，平均销售额122,500元",
+      analysis: {
+        trend: 'upward',
+        peak: { month: '3月', value: 156734 },
+        valley: { month: '12月', value: 89476 },
+        suggestions: [
+          "关注12月份销售下滑原因",
+          "建议复制第一季度的成功经验",
+          "可以考虑在淡季增加促销活动"
+        ]
+      }
+    },
+    status: 'success'
+  }
+];
+
+export const mockUser = {
+  id: 1,
+  name: "Alex Chen",
+  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop",
+  role: "管理员",
+  lastLogin: "2023-12-10 14:20:30"
+};
+
+export const mockConfigs = {
+  database: {
+    type: "MySQL",
+    host: "db.example.com",
+    port: 3306,
+    database: "sales_db",
+    username: "******",
+    status: "connected"
+  },
+  model: {
+    type: "GPT-4",
+    temperature: 0.7,
+    maxTokens: 2000,
+    status: "ready"
+  },
+  vectorDb: {
+    type: "Milvus",
+    host: "vector.example.com",
+    port: 19530,
+    collection: "sales_embeddings",
+    status: "connected"
+  }
+};
+
+export const mockDatabases = [
+  { id: 1, name: "销售数据库", type: "MySQL", tables: 24, status: "connected" },
+  { id: 2, name: "用户数据库", type: "PostgreSQL", tables: 15, status: "connected" },
+  { id: 3, name: "产品数据库", type: "MongoDB", collections: 8, status: "disconnected" }
+];

@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faDatabase, faBrain } from '@fortawesome/free-solid-svg-icons';
+import Message from '../Message';
+import { mockMessages } from '../../mock/data';
 import './styles.css';
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(mockMessages);
   const [input, setInput] = useState('');
   const [mode, setMode] = useState('query');
   const messagesEndRef = useRef(null);
@@ -25,6 +27,7 @@ const Chat = () => {
       id: Date.now(),
       text: input,
       sender: 'user',
+      timestamp: new Date().toLocaleString(),
       status: 'success'
     };
 
@@ -35,22 +38,23 @@ const Chat = () => {
     setTimeout(() => {
       const aiResponse = {
         id: Date.now() + 1,
-        text: '正在分析您的请求，请稍候...',
         sender: 'ai',
+        timestamp: new Date().toLocaleString(),
+        content: {
+          response: "我正在分析您的请求...",
+          sql: `SELECT * FROM ${mode === 'query' ? 'sales' : 'training_data'} WHERE created_at > NOW() - INTERVAL 1 DAY;`
+        },
         status: 'success'
       };
       setMessages(msgs => [...msgs, aiResponse]);
-    }, 500);
+    }, 1000);
   };
 
   return (
     <div className="chat">
       <div className="messages">
         {messages.map(message => (
-          <div key={message.id} className={`message ${message.sender}`}>
-            <div className="message-content">{message.text}</div>
-            <div className={`status-indicator ${message.status}`}></div>
-          </div>
+          <Message key={message.id} message={message} />
         ))}
         <div ref={messagesEndRef} />
       </div>
