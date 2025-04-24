@@ -1,10 +1,10 @@
 import React from 'react';
-import Auth from './components/Auth';
+import Subscription from './components/Subscription';
 
 const App = () => {
   return (
     <div className="app">
-      <Auth />
+      <Subscription />
     </div>
   );
 };

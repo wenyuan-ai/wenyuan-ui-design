@@ -1,0 +1,271 @@
+.subscription-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.subscription-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.subscription-header h1 {
+  font-size: 2.5rem;
+  color: #2d3748;
+  margin-bottom: 16px;
+}
+
+.subscription-header p {
+  font-size: 1.1rem;
+  color: #718096;
+  margin-bottom: 24px;
+}
+
+.billing-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.billing-toggle span {
+  color: #718096;
+  font-size: 1rem;
+}
+
+.billing-toggle span.active {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e0;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4299e1;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.discount-badge {
+  background-color: #48bb78;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-left: 8px;
+}
+
+.plans-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.plan-card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.plan-card.selected {
+  border-color: #4299e1;
+}
+
+.plan-card.popular {
+  border-color: #4299e1;
+}
+
+.popular-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #4299e1;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+}
+
+.plan-card h3 {
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin-bottom: 16px;
+}
+
+.price {
+  margin-bottom: 24px;
+  color: #2d3748;
+}
+
+.price .currency {
+  font-size: 1.5rem;
+  vertical-align: top;
+  margin-right: 4px;
+}
+
+.price .amount {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.price .period {
+  font-size: 1rem;
+  color: #718096;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+.features li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #4a5568;
+}
+
+.check-icon {
+  color: #48bb78;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.select-button {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #4299e1;
+  border-radius: 8px;
+  background: transparent;
+  color: #4299e1;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select-button:hover {
+  background: #4299e1;
+  color: white;
+}
+
+.select-button.selected {
+  background: #4299e1;
+  color: white;
+}
+
+.subscription-footer {
+  text-align: center;
+}
+
+.subscribe-button {
+  padding: 16px 48px;
+  background: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+}
+
+.subscribe-button:hover {
+  background: #3182ce;
+}
+
+.subscribe-button:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.payment-info {
+  color: #718096;
+}
+
+.payment-info p {
+  margin-bottom: 12px;
+}
+
+.payment-methods {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.payment-method {
+  padding: 8px 16px;
+  background: #edf2f7;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .subscription-container {
+    padding: 20px;
+  }
+
+  .subscription-header h1 {
+    font-size: 2rem;
+  }
+
+  .plans-container {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card {
+    padding: 24px;
+  }
+}
