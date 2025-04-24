@@ -30,7 +30,7 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   devServer: {
-    port: 3001,
+    port: 3000,
     allowedHosts: ['all', '.alibaba-inc.com']
   },
   plugins: [
