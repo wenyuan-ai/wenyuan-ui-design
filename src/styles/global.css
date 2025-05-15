@@ -8,10 +8,20 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
 }
 
 .app {
   min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+}
+
+input, button, textarea, select {
+  font: inherit;
 }
 
 :root {
@@ -30,4 +40,23 @@ body {
   --info-color: #3b82f6;
   --sidebar-width: 300px;
   --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }

@@ -1,0 +1,37 @@
+.main-app {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.content-area {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* 加载动画 */
+.app.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--highlight-bg);
+  border-bottom-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
