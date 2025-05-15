@@ -418,3 +418,300 @@
   font-size: 12px;
   color: var(--text-secondary);
 }
+
+/* 表单文本区域样式 */
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: all 0.2s;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* 开关样式 */
+.switch-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--highlight-bg);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.switch-group label {
+  margin: 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--accent-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* 多模型配置样式 */
+.multi-model-config,
+.multi-vector-config {
+  margin-top: 20px;
+}
+
+.models-header,
+.vectors-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.models-header h4,
+.vectors-header h4 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.add-model-button,
+.add-vector-button {
+  padding: 6px 12px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-model-button:hover,
+.add-vector-button:hover {
+  background: var(--accent-hover);
+}
+
+.models-list,
+.vectors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.model-item,
+.vector-item {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.model-item.active,
+.vector-item.active {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+.model-item-header,
+.vector-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--highlight-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.model-item-name,
+.vector-item-name {
+  flex: 1;
+}
+
+.model-item-name input,
+.vector-item-name input {
+  border: none;
+  background: transparent;
+  font-weight: 500;
+  width: 100%;
+  padding: 4px 0;
+}
+
+.model-item-name input:focus,
+.vector-item-name input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--accent-color);
+}
+
+.model-item-actions,
+.vector-item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.set-active-button {
+  padding: 4px 8px;
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.set-active-button.active {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+  cursor: default;
+}
+
+.remove-model-button,
+.remove-vector-button {
+  padding: 4px 8px;
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--error-color);
+  cursor: pointer;
+}
+
+.remove-model-button:hover,
+.remove-vector-button:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--error-color);
+}
+
+.model-item-content,
+.vector-item-content {
+  padding: 16px;
+}
+
+.model-usage-info,
+.vector-usage-info {
+  margin: 20px 0;
+  padding: 16px;
+  background: var(--highlight-bg);
+  border-radius: 8px;
+}
+
+.model-usage-info .info-item,
+.vector-usage-info .info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-direction: row;
+}
+
+.model-usage-info .info-item:last-child,
+.vector-usage-info .info-item:last-child {
+  margin-bottom: 0;
+}
+
+.model-usage-info .info-label,
+.vector-usage-info .info-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.model-usage-info .info-value,
+.vector-usage-info .info-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* 加载容器 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.loading-container .loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(79, 70, 229, 0.2);
+  border-radius: 50%;
+  border-top-color: var(--accent-color);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
