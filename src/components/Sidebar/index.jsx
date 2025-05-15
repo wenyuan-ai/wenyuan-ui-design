@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog, faSignInAlt, faDatabase, faBrain, faServer } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faSignInAlt, faDatabase, faBrain, faServer, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { mockUser, mockConfigs } from '../../mock/data';
+import ConfigPanel from '../ConfigPanel';
 import './styles.css';
 
 const Sidebar = () => {
   const [isLoggedIn] = useState(true);
   const [showConfig, setShowConfig] = useState(false);
+  const [activeConfigPanel, setActiveConfigPanel] = useState(null);
 
   const renderConfigStatus = (status) => {
     return (
@@ -14,6 +16,14 @@ const Sidebar = () => {
         {status === 'connected' ? '已连接' : '未连接'}
       </span>
     );
+  };
+
+  const handleConfigClick = (configType) => {
+    setActiveConfigPanel(configType);
+  };
+
+  const handleCloseConfigPanel = () => {
+    setActiveConfigPanel(null);
   };
 
   return (
@@ -31,6 +41,13 @@ const Sidebar = () => {
             <h4>
               <FontAwesomeIcon icon={faDatabase} />
               <span>数据库配置</span>
+              <button 
+                className="edit-config-button" 
+                onClick={() => handleConfigClick('database')}
+                title="编辑数据库配置"
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
             </h4>
             <div className="config-item">
               <span>类型:</span>
@@ -46,6 +63,13 @@ const Sidebar = () => {
             <h4>
               <FontAwesomeIcon icon={faBrain} />
               <span>模型配置</span>
+              <button 
+                className="edit-config-button" 
+                onClick={() => handleConfigClick('model')}
+                title="编辑模型配置"
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
             </h4>
             <div className="config-item">
               <span>类型:</span>
@@ -61,6 +85,13 @@ const Sidebar = () => {
             <h4>
               <FontAwesomeIcon icon={faServer} />
               <span>向量数据库</span>
+              <button 
+                className="edit-config-button" 
+                onClick={() => handleConfigClick('vector')}
+                title="编辑向量库配置"
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
             </h4>
             <div className="config-item">
               <span>类型:</span>
@@ -72,6 +103,13 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {activeConfigPanel && (
+        <ConfigPanel 
+          onClose={handleCloseConfigPanel} 
+          activeTab={activeConfigPanel === 'database' ? 'database' : activeConfigPanel === 'vector' ? 'vector' : 'model'} 
+        />
       )}
       
       <div className="sidebar-bottom">

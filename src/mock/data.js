@@ -106,3 +106,20 @@ export const mockDatabases = [
   { id: 2, name: "用户数据库", type: "PostgreSQL", tables: 15, status: "connected" },
   { id: 3, name: "产品数据库", type: "MongoDB", collections: 8, status: "disconnected" }
 ];
+
+export const mockModelOptions = [
+  { id: 'gpt4', name: 'GPT-4', provider: 'OpenAI', maxTokens: 8192 },
+  { id: 'gpt35', name: 'GPT-3.5 Turbo', provider: 'OpenAI', maxTokens: 4096 },
+  { id: 'claude2', name: 'Claude 2', provider: 'Anthropic', maxTokens: 100000 },
+  { id: 'gemini', name: 'Gemini Pro', provider: 'Google', maxTokens: 32768 },
+  { id: 'llama2', name: 'Llama 2', provider: 'Meta', maxTokens: 4096 },
+  { id: 'qwen', name: '通义千问', provider: '阿里巴巴', maxTokens: 8192 }
+];
+
+export const mockVectorDbOptions = [
+  { id: 'milvus', name: 'Milvus', type: '向量数据库', supportedDimensions: [128, 256, 512, 768, 1024, 1536, 2048] },
+  { id: 'pinecone', name: 'Pinecone', type: '向量搜索', supportedDimensions: [768, 1024, 1536] },
+  { id: 'faiss', name: 'Faiss', type: '向量索引库', supportedDimensions: [32, 64, 128, 256, 512, 768, 1024, 1536, 2048] },
+  { id: 'weaviate', name: 'Weaviate', type: '向量搜索引擎', supportedDimensions: [768, 1024, 1536] },
+  { id: 'qdrant', name: 'Qdrant', type: '向量数据库', supportedDimensions: [128, 256, 512, 768, 1024, 1536] }
+];

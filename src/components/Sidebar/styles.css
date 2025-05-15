@@ -126,6 +126,33 @@
   margin-bottom: 16px;
   font-size: 14px;
   color: var(--text-primary);
+  position: relative;
+}
+
+.edit-config-button {
+  position: absolute;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s, background 0.2s;
+}
+
+.config-section:hover .edit-config-button {
+  opacity: 1;
+}
+
+.edit-config-button:hover {
+  color: var(--accent-color);
+  background: var(--highlight-bg);
 }
 
 .config-item {
