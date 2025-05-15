@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Auth from './components/Auth';
 import MainApp from './components/MainApp';
 import { mockUser } from './mock/data';
+import './styles/global.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

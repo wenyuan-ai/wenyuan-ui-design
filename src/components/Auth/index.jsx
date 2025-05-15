@@ -4,7 +4,7 @@ import { faGithub, faWeixin } from '@fortawesome/free-brands-svg-icons';
 import { faMobile, faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 
-const Auth = () => {
+const Auth = ({ onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [loginMethod, setLoginMethod] = useState('password'); // 'password', 'phone', 'social'
   const [formData, setFormData] = useState({
@@ -15,6 +15,7 @@ const Auth = () => {
     verificationCode: ''
   });
   const [countdown, setCountdown] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +28,21 @@ const Auth = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    
+    // 模拟登录过程
+    setIsLoading(true);
+    
+    setTimeout(() => {
+      setIsLoading(false);
+      
+      // 调用登录成功回调，传递用户数据
+      onLoginSuccess({
+        id: 1,
+        name: formData.username || formData.phone || 'User',
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop",
+        role: "用户"
+      });
+    }, 1000);
   };
 
   const toggleMode = () => {
@@ -43,7 +59,21 @@ const Auth = () => {
 
   const handleSocialLogin = (platform) => {
     console.log(`Login with ${platform}`);
-    // TODO: 实现社交媒体登录
+    
+    // 模拟社交媒体登录
+    setIsLoading(true);
+    
+    setTimeout(() => {
+      setIsLoading(false);
+      
+      // 调用登录成功回调
+      onLoginSuccess({
+        id: 2,
+        name: platform === 'github' ? 'GitHub User' : 'WeChat User',
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop",
+        role: "用户"
+      });
+    }, 1000);
   };
 
   const sendVerificationCode = () => {
@@ -75,12 +105,14 @@ const Auth = () => {
             <button
               className={`method-button ${loginMethod === 'password' ? 'active' : ''}`}
               onClick={() => setLoginMethod('password')}
+              type="button"
             >
               密码登录
             </button>
             <button
               className={`method-button ${loginMethod === 'phone' ? 'active' : ''}`}
               onClick={() => setLoginMethod('phone')}
+              type="button"
             >
               手机验证码
             </button>
@@ -162,8 +194,16 @@ const Auth = () => {
             </>
           )}
 
-          <button type="submit" className="auth-button">
-            {isLogin ? '登录' : '注册'}
+          <button 
+            type="submit" 
+            className="auth-button"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="loading-spinner"></span>
+            ) : (
+              isLogin ? '登录' : '注册'
+            )}
           </button>
         </form>
 
@@ -171,14 +211,18 @@ const Auth = () => {
           <p>社交账号登录</p>
           <div className="social-buttons">
             <button
+              type="button"
               className="social-button github"
               onClick={() => handleSocialLogin('github')}
+              disabled={isLoading}
             >
               <FontAwesomeIcon icon={faGithub} />
             </button>
             <button
+              type="button"
               className="social-button wechat"
               onClick={() => handleSocialLogin('wechat')}
+              disabled={isLoading}
             >
               <FontAwesomeIcon icon={faWeixin} />
             </button>
@@ -188,7 +232,12 @@ const Auth = () => {
         <div className="auth-footer">
           <p>
             {isLogin ? '还没有账号？' : '已有账号？'}
-            <button className="toggle-button" onClick={toggleMode}>
+            <button 
+              type="button" 
+              className="toggle-button" 
+              onClick={toggleMode}
+              disabled={isLoading}
+            >
               {isLogin ? '立即注册' : '立即登录'}
             </button>
           </p>
