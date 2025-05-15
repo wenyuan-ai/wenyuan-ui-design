@@ -102,6 +102,7 @@ export const mockConfigs = {
     presencePenalty: 0.5,
     systemPrompt: "你是一个专业的数据分析助手，能够将自然语言转换为SQL查询并分析结果。",
     apiKey: "sk-***********************************",
+    baseUrl: "https://api.openai.com/v1",
     status: "ready",
     availableModels: ["GPT-4", "GPT-3.5-Turbo", "Claude 2", "LLaMA 2", "Qwen"],
     supportedFeatures: ["SQL生成", "自然语言分析", "图表推荐", "数据解释"]
@@ -130,12 +131,48 @@ export const mockDatabases = [
 ];
 
 export const mockModelOptions = [
-  { id: 'gpt4', name: 'GPT-4', provider: 'OpenAI', maxTokens: 8192 },
-  { id: 'gpt35', name: 'GPT-3.5 Turbo', provider: 'OpenAI', maxTokens: 4096 },
-  { id: 'claude2', name: 'Claude 2', provider: 'Anthropic', maxTokens: 100000 },
-  { id: 'gemini', name: 'Gemini Pro', provider: 'Google', maxTokens: 32768 },
-  { id: 'llama2', name: 'Llama 2', provider: 'Meta', maxTokens: 4096 },
-  { id: 'qwen', name: '通义千问', provider: '阿里巴巴', maxTokens: 8192 }
+  { 
+    id: 'gpt4', 
+    name: 'GPT-4', 
+    provider: 'OpenAI', 
+    maxTokens: 8192,
+    defaultBaseUrl: 'https://api.openai.com/v1'
+  },
+  { 
+    id: 'gpt35', 
+    name: 'GPT-3.5 Turbo', 
+    provider: 'OpenAI', 
+    maxTokens: 4096,
+    defaultBaseUrl: 'https://api.openai.com/v1'
+  },
+  { 
+    id: 'claude2', 
+    name: 'Claude 2', 
+    provider: 'Anthropic', 
+    maxTokens: 100000,
+    defaultBaseUrl: 'https://api.anthropic.com'
+  },
+  { 
+    id: 'gemini', 
+    name: 'Gemini Pro', 
+    provider: 'Google', 
+    maxTokens: 32768,
+    defaultBaseUrl: 'https://generativelanguage.googleapis.com'
+  },
+  { 
+    id: 'llama2', 
+    name: 'Llama 2', 
+    provider: 'Meta', 
+    maxTokens: 4096,
+    defaultBaseUrl: ''
+  },
+  { 
+    id: 'qwen', 
+    name: '通义千问', 
+    provider: '阿里巴巴', 
+    maxTokens: 8192,
+    defaultBaseUrl: 'https://dashscope.aliyuncs.com'
+  }
 ];
 
 export const mockVectorDbOptions = [

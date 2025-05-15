@@ -55,6 +55,7 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
   const [modelConfig, setModelConfig] = useState({
     type: mockConfigs.model.type || 'GPT-4',
     apiKey: '********',
+    baseUrl: mockConfigs.model.baseUrl || '',
     temperature: mockConfigs.model.temperature || 0.7,
     maxTokens: mockConfigs.model.maxTokens || 2000,
     topP: 1,
@@ -69,6 +70,7 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
         name: '默认模型',
         type: 'GPT-4',
         apiKey: '********',
+        baseUrl: '',
         temperature: 0.7,
         isActive: true
       }
@@ -134,6 +136,7 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
           name: `模型 ${modelConfig.models.length + 1}`,
           type: 'GPT-3.5',
           apiKey: '',
+          baseUrl: '',
           temperature: 0.7,
           isActive: false
         }
@@ -650,6 +653,17 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
                     </div>
                   </div>
                   
+                  <div className="form-group">
+                    <label>Base URL</label>
+                    <input 
+                      type="text" 
+                      value={model.baseUrl || ''}
+                      onChange={(e) => handleModelItemChange(model.id, 'baseUrl', e.target.value)}
+                      placeholder="https://api.openai.com/v1"
+                    />
+                    <div className="field-hint">可选，用于自定义API端点或私有部署</div>
+                  </div>
+                  
                   <div className="form-row">
                     <div className="form-group">
                       <label>温度 (Temperature)</label>
@@ -679,6 +693,10 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
             <div className="info-item">
               <span className="info-label">模型类型:</span>
               <span className="info-value">{modelConfig.models.find(m => m.isActive)?.type || '未设置'}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">API端点:</span>
+              <span className="info-value">{modelConfig.models.find(m => m.isActive)?.baseUrl || '默认'}</span>
             </div>
           </div>
         </div>
@@ -711,6 +729,19 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
               onChange={handleModelConfigChange}
               placeholder="sk-..."
             />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="baseUrl">Base URL</label>
+            <input 
+              type="text" 
+              id="baseUrl" 
+              name="baseUrl" 
+              value={modelConfig.baseUrl}
+              onChange={handleModelConfigChange}
+              placeholder="https://api.openai.com/v1"
+            />
+            <div className="field-hint">可选，用于自定义API端点或私有部署</div>
           </div>
           
           <h4 className="section-title">模型参数</h4>
