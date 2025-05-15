@@ -310,6 +310,39 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
     </div>
   );
 
+  // 数据库配置状态
+  const [dbConfig, setDbConfig] = useState({
+    type: mockConfigs.database.type || 'MySQL',
+    host: mockConfigs.database.host || '',
+    port: mockConfigs.database.port || 3306,
+    database: mockConfigs.database.database || '',
+    username: mockConfigs.database.username || '',
+    password: '',
+    status: mockConfigs.database.status || 'disconnected'
+  });
+  
+  // 向量库配置状态
+  const [vectorConfig, setVectorConfig] = useState({
+    type: mockConfigs.vectorDb.type || 'Milvus',
+    host: mockConfigs.vectorDb.host || '',
+    port: mockConfigs.vectorDb.port || 19530,
+    collection: mockConfigs.vectorDb.collection || '',
+    dimension: 1536,
+    status: mockConfigs.vectorDb.status || 'disconnected',
+    // 添加多向量库配置支持
+    multipleVectors: false,
+    vectors: [
+      {
+        id: 'default',
+        name: '默认向量库',
+        type: 'Milvus',
+        host: mockConfigs.vectorDb.host || '',
+        port: 19530,
+        isActive: true
+      }
+    ]
+  });
+  
   // 模型配置状态
   const [modelConfig, setModelConfig] = useState({
     type: mockConfigs.model.type || 'GPT-4',
@@ -329,28 +362,6 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
         type: 'GPT-4',
         apiKey: '********',
         temperature: 0.7,
-        isActive: true
-      }
-    ]
-  });
-
-  // 向量库配置状态
-  const [vectorConfig, setVectorConfig] = useState({
-    type: mockConfigs.vectorDb.type || 'Milvus',
-    host: mockConfigs.vectorDb.host || '',
-    port: mockConfigs.vectorDb.port || 19530,
-    collection: mockConfigs.vectorDb.collection || '',
-    dimension: 1536,
-    status: mockConfigs.vectorDb.status || 'disconnected',
-    // 添加多向量库配置支持
-    multipleVectors: false,
-    vectors: [
-      {
-        id: 'default',
-        name: '默认向量库',
-        type: 'Milvus',
-        host: mockConfigs.vectorDb.host || '',
-        port: 19530,
         isActive: true
       }
     ]
