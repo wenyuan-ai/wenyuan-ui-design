@@ -84,20 +84,42 @@ export const mockConfigs = {
     port: 3306,
     database: "sales_db",
     username: "******",
-    status: "connected"
+    password: "********",
+    connectionTimeout: 10000,
+    maxConnections: 10,
+    ssl: true,
+    status: "connected",
+    lastConnected: "2023-12-10 13:45:22",
+    availableTypes: ["MySQL", "PostgreSQL", "MongoDB", "SQLite", "Oracle"],
+    supportedFeatures: ["事务", "存储过程", "触发器", "视图"]
   },
   model: {
     type: "GPT-4",
     temperature: 0.7,
     maxTokens: 2000,
-    status: "ready"
+    topP: 0.9,
+    frequencyPenalty: 0.5,
+    presencePenalty: 0.5,
+    systemPrompt: "你是一个专业的数据分析助手，能够将自然语言转换为SQL查询并分析结果。",
+    apiKey: "sk-***********************************",
+    status: "ready",
+    availableModels: ["GPT-4", "GPT-3.5-Turbo", "Claude 2", "LLaMA 2", "Qwen"],
+    supportedFeatures: ["SQL生成", "自然语言分析", "图表推荐", "数据解释"]
   },
   vectorDb: {
     type: "Milvus",
     host: "vector.example.com",
     port: 19530,
     collection: "sales_embeddings",
-    status: "connected"
+    dimension: 1536,
+    metric: "COSINE",
+    indexType: "HNSW",
+    replicaNumber: 2,
+    shardNumber: 3,
+    status: "connected",
+    lastSyncTime: "2023-12-10 12:30:15",
+    availableTypes: ["Milvus", "Faiss", "Pinecone", "Weaviate", "Qdrant"],
+    supportedFeatures: ["相似度搜索", "向量检索", "语义匹配", "多模态索引"]
   }
 };
 
@@ -105,6 +127,23 @@ export const mockDatabases = [
   { id: 1, name: "销售数据库", type: "MySQL", tables: 24, status: "connected" },
   { id: 2, name: "用户数据库", type: "PostgreSQL", tables: 15, status: "connected" },
   { id: 3, name: "产品数据库", type: "MongoDB", collections: 8, status: "disconnected" }
+];
+
+export const mockModelOptions = [
+  { id: 'gpt4', name: 'GPT-4', provider: 'OpenAI', maxTokens: 8192 },
+  { id: 'gpt35', name: 'GPT-3.5 Turbo', provider: 'OpenAI', maxTokens: 4096 },
+  { id: 'claude2', name: 'Claude 2', provider: 'Anthropic', maxTokens: 100000 },
+  { id: 'gemini', name: 'Gemini Pro', provider: 'Google', maxTokens: 32768 },
+  { id: 'llama2', name: 'Llama 2', provider: 'Meta', maxTokens: 4096 },
+  { id: 'qwen', name: '通义千问', provider: '阿里巴巴', maxTokens: 8192 }
+];
+
+export const mockVectorDbOptions = [
+  { id: 'milvus', name: 'Milvus', type: '向量数据库', supportedDimensions: [128, 256, 512, 768, 1024, 1536, 2048] },
+  { id: 'pinecone', name: 'Pinecone', type: '向量搜索', supportedDimensions: [768, 1024, 1536] },
+  { id: 'faiss', name: 'Faiss', type: '向量索引库', supportedDimensions: [32, 64, 128, 256, 512, 768, 1024, 1536, 2048] },
+  { id: 'weaviate', name: 'Weaviate', type: '向量搜索引擎', supportedDimensions: [768, 1024, 1536] },
+  { id: 'qdrant', name: 'Qdrant', type: '向量数据库', supportedDimensions: [128, 256, 512, 768, 1024, 1536] }
 ];
 
 export const mockModelOptions = [
