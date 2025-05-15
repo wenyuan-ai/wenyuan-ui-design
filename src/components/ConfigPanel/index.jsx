@@ -36,7 +36,19 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
     port: mockConfigs.vectorDb.port || 19530,
     collection: mockConfigs.vectorDb.collection || '',
     dimension: 1536,
-    status: mockConfigs.vectorDb.status || 'disconnected'
+    status: mockConfigs.vectorDb.status || 'disconnected',
+    // 添加多向量库配置支持
+    multipleVectors: false,
+    vectors: [
+      {
+        id: 'default',
+        name: '默认向量库',
+        type: 'Milvus',
+        host: mockConfigs.vectorDb.host || '',
+        port: 19530,
+        isActive: true
+      }
+    ]
   });
   
   // 模型配置状态
@@ -48,7 +60,19 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
     topP: 1,
     frequencyPenalty: 0,
     presencePenalty: 0,
-    status: mockConfigs.model.status || 'disconnected'
+    status: mockConfigs.model.status || 'disconnected',
+    // 添加多模型配置支持
+    multipleModels: false,
+    models: [
+      {
+        id: 'default',
+        name: '默认模型',
+        type: 'GPT-4',
+        apiKey: '********',
+        temperature: 0.7,
+        isActive: true
+      }
+    ]
   });
 
   // 处理数据库配置变更
@@ -65,7 +89,7 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
     const { name, value } = e.target;
     setVectorConfig({
       ...vectorConfig,
-      [name]: value
+      [name]: name === 'multipleVectors' ? e.target.checked : value
     });
   };
 
@@ -74,7 +98,103 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
     const { name, value } = e.target;
     setModelConfig({
       ...modelConfig,
-      [name]: value
+      [name]: name === 'multipleModels' ? e.target.checked : value
+    });
+  };
+
+  // 处理单个模型配置变更
+  const handleModelItemChange = (modelId, field, value) => {
+    setModelConfig({
+      ...modelConfig,
+      models: modelConfig.models.map(model => 
+        model.id === modelId ? { ...model, [field]: value } : model
+      )
+    });
+  };
+
+  // 处理单个向量库配置变更
+  const handleVectorItemChange = (vectorId, field, value) => {
+    setVectorConfig({
+      ...vectorConfig,
+      vectors: vectorConfig.vectors.map(vector => 
+        vector.id === vectorId ? { ...vector, [field]: value } : vector
+      )
+    });
+  };
+
+  // 添加新的模型配置
+  const addModelConfig = () => {
+    const newId = `model-${Date.now()}`;
+    setModelConfig({
+      ...modelConfig,
+      models: [
+        ...modelConfig.models,
+        {
+          id: newId,
+          name: `模型 ${modelConfig.models.length + 1}`,
+          type: 'GPT-3.5',
+          apiKey: '',
+          temperature: 0.7,
+          isActive: false
+        }
+      ]
+    });
+  };
+
+  // 添加新的向量库配置
+  const addVectorConfig = () => {
+    const newId = `vector-${Date.now()}`;
+    setVectorConfig({
+      ...vectorConfig,
+      vectors: [
+        ...vectorConfig.vectors,
+        {
+          id: newId,
+          name: `向量库 ${vectorConfig.vectors.length + 1}`,
+          type: 'Pinecone',
+          host: '',
+          port: 433,
+          isActive: false
+        }
+      ]
+    });
+  };
+
+  // 删除模型配置
+  const removeModelConfig = (modelId) => {
+    setModelConfig({
+      ...modelConfig,
+      models: modelConfig.models.filter(model => model.id !== modelId)
+    });
+  };
+
+  // 删除向量库配置
+  const removeVectorConfig = (vectorId) => {
+    setVectorConfig({
+      ...vectorConfig,
+      vectors: vectorConfig.vectors.filter(vector => vector.id !== vectorId)
+    });
+  };
+
+  // 设置活跃模型
+  const setActiveModel = (modelId) => {
+    setModelConfig({
+      ...modelConfig,
+      models: modelConfig.models.map(model => ({
+        ...model,
+        isActive: model.id === modelId
+      }))
+    });
+  };
+
+  // 设置活跃向量库
+  const setActiveVector = (vectorId) => {
+    setVectorConfig({
+      ...vectorConfig,
+      vectors: vectorConfig.vectors.map(vector => ({
+        ...vector,
+        isActive: vector.id === vectorId
+      }))
     });
   };
 
@@ -115,6 +235,7 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
     onClose();
   };
 
+  // 渲染数据库配置
   const renderDatabaseConfig = () => (
     <div className="config-form">
       <div className="form-group">
@@ -218,71 +339,199 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
     </div>
   );
 
+  // 渲染向量库配置
   const renderVectorDbConfig = () => (
     <div className="config-form">
-      <div className="form-group">
-        <label htmlFor="vectorType">向量库类型</label>
-        <select 
-          id="vectorType" 
-          name="type" 
-          value={vectorConfig.type}
-          onChange={handleVectorConfigChange}
-        >
-          <option value="Milvus">Milvus</option>
-          <option value="Pinecone">Pinecone</option>
-          <option value="Faiss">Faiss</option>
-          <option value="Weaviate">Weaviate</option>
-          <option value="Qdrant">Qdrant</option>
-        </select>
-      </div>
-      
-      <div className="form-group">
-        <label htmlFor="vectorHost">主机地址</label>
-        <input 
-          type="text" 
-          id="vectorHost" 
-          name="host" 
-          value={vectorConfig.host}
-          onChange={handleVectorConfigChange}
-          placeholder="例如: localhost 或 vector.example.com"
-        />
-      </div>
-      
-      <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="vectorPort">端口</label>
-          <input 
-            type="number" 
-            id="vectorPort" 
-            name="port" 
-            value={vectorConfig.port}
+      <div className="form-group switch-group">
+        <label htmlFor="multipleVectors">启用多向量库配置</label>
+        <label className="switch">
+          <input
+            type="checkbox"
+            id="multipleVectors"
+            name="multipleVectors"
+            checked={vectorConfig.multipleVectors}
             onChange={handleVectorConfigChange}
           />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="vectorCollection">集合名称</label>
-          <input 
-            type="text" 
-            id="vectorCollection" 
-            name="collection" 
-            value={vectorConfig.collection}
-            onChange={handleVectorConfigChange}
-          />
-        </div>
+          <span className="slider round"></span>
+        </label>
       </div>
       
-      <div className="form-group">
-        <label htmlFor="vectorDimension">向量维度</label>
-        <input 
-          type="number" 
-          id="vectorDimension" 
-          name="dimension" 
-          value={vectorConfig.dimension}
-          onChange={handleVectorConfigChange}
-        />
-        <div className="field-hint">大多数大型语言模型使用1536维向量</div>
-      </div>
+      {vectorConfig.multipleVectors ? (
+        <div className="multi-vector-config">
+          <div className="vectors-header">
+            <h4>配置多个向量数据库</h4>
+            <button 
+              type="button" 
+              className="add-vector-button"
+              onClick={addVectorConfig}
+            >
+              添加向量库
+            </button>
+          </div>
+          
+          <div className="vectors-list">
+            {vectorConfig.vectors.map(vector => (
+              <div key={vector.id} className={`vector-item ${vector.isActive ? 'active' : ''}`}>
+                <div className="vector-item-header">
+                  <div className="vector-item-name">
+                    <input
+                      type="text"
+                      value={vector.name}
+                      onChange={(e) => handleVectorItemChange(vector.id, 'name', e.target.value)}
+                      placeholder="向量库名称"
+                    />
+                  </div>
+                  <div className="vector-item-actions">
+                    <button 
+                      type="button" 
+                      className={`set-active-button ${vector.isActive ? 'active' : ''}`}
+                      onClick={() => setActiveVector(vector.id)}
+                      disabled={vector.isActive}
+                    >
+                      {vector.isActive ? '当前使用' : '设为默认'}
+                    </button>
+                    {vectorConfig.vectors.length > 1 && (
+                      <button 
+                        type="button" 
+                        className="remove-vector-button"
+                        onClick={() => removeVectorConfig(vector.id)}
+                      >
+                        删除
+                      </button>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="vector-item-content">
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>向量库类型</label>
+                      <select 
+                        value={vector.type}
+                        onChange={(e) => handleVectorItemChange(vector.id, 'type', e.target.value)}
+                      >
+                        <option value="Milvus">Milvus</option>
+                        <option value="Pinecone">Pinecone</option>
+                        <option value="Faiss">Faiss</option>
+                        <option value="Weaviate">Weaviate</option>
+                        <option value="Qdrant">Qdrant</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>主机地址</label>
+                      <input 
+                        type="text" 
+                        value={vector.host}
+                        onChange={(e) => handleVectorItemChange(vector.id, 'host', e.target.value)}
+                        placeholder="例如: localhost 或 vector.example.com"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>端口</label>
+                      <input 
+                        type="number" 
+                        value={vector.port}
+                        onChange={(e) => handleVectorItemChange(vector.id, 'port', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>集合名称</label>
+                    <input 
+                      type="text" 
+                      value={vector.collection || ''}
+                      onChange={(e) => handleVectorItemChange(vector.id, 'collection', e.target.value)}
+                      placeholder="向量集合名称"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="vector-usage-info">
+            <div className="info-item">
+              <span className="info-label">当前使用向量库:</span>
+              <span className="info-value">{vectorConfig.vectors.find(v => v.isActive)?.name || '未设置'}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">向量库类型:</span>
+              <span className="info-value">{vectorConfig.vectors.find(v => v.isActive)?.type || '未设置'}</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="form-group">
+            <label htmlFor="vectorType">向量库类型</label>
+            <select 
+              id="vectorType" 
+              name="type" 
+              value={vectorConfig.type}
+              onChange={handleVectorConfigChange}
+            >
+              <option value="Milvus">Milvus</option>
+              <option value="Pinecone">Pinecone</option>
+              <option value="Faiss">Faiss</option>
+              <option value="Weaviate">Weaviate</option>
+              <option value="Qdrant">Qdrant</option>
+            </select>
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="vectorHost">主机地址</label>
+            <input 
+              type="text" 
+              id="vectorHost" 
+              name="host" 
+              value={vectorConfig.host}
+              onChange={handleVectorConfigChange}
+              placeholder="例如: localhost 或 vector.example.com"
+            />
+          </div>
+          
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="vectorPort">端口</label>
+              <input 
+                type="number" 
+                id="vectorPort" 
+                name="port" 
+                value={vectorConfig.port}
+                onChange={handleVectorConfigChange}
+              />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="vectorCollection">集合名称</label>
+              <input 
+                type="text" 
+                id="vectorCollection" 
+                name="collection" 
+                value={vectorConfig.collection}
+                onChange={handleVectorConfigChange}
+              />
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="vectorDimension">向量维度</label>
+            <input 
+              type="number" 
+              id="vectorDimension" 
+              name="dimension" 
+              value={vectorConfig.dimension}
+              onChange={handleVectorConfigChange}
+            />
+            <div className="field-hint">大多数大型语言模型使用1536维向量</div>
+          </div>
+        </>
+      )}
 
       <div className="vector-info">
         <h4>向量数据库信息</h4>
@@ -309,177 +558,6 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
       </div>
     </div>
   );
-
-  // 数据库配置状态
-  const [dbConfig, setDbConfig] = useState({
-    type: mockConfigs.database.type || 'MySQL',
-    host: mockConfigs.database.host || '',
-    port: mockConfigs.database.port || 3306,
-    database: mockConfigs.database.database || '',
-    username: mockConfigs.database.username || '',
-    password: '',
-    status: mockConfigs.database.status || 'disconnected'
-  });
-  
-  // 向量库配置状态
-  const [vectorConfig, setVectorConfig] = useState({
-    type: mockConfigs.vectorDb.type || 'Milvus',
-    host: mockConfigs.vectorDb.host || '',
-    port: mockConfigs.vectorDb.port || 19530,
-    collection: mockConfigs.vectorDb.collection || '',
-    dimension: 1536,
-    status: mockConfigs.vectorDb.status || 'disconnected',
-    // 添加多向量库配置支持
-    multipleVectors: false,
-    vectors: [
-      {
-        id: 'default',
-        name: '默认向量库',
-        type: 'Milvus',
-        host: mockConfigs.vectorDb.host || '',
-        port: 19530,
-        isActive: true
-      }
-    ]
-  });
-  
-  // 模型配置状态
-  const [modelConfig, setModelConfig] = useState({
-    type: mockConfigs.model.type || 'GPT-4',
-    apiKey: '********',
-    temperature: mockConfigs.model.temperature || 0.7,
-    maxTokens: mockConfigs.model.maxTokens || 2000,
-    topP: 1,
-    frequencyPenalty: 0,
-    presencePenalty: 0,
-    status: mockConfigs.model.status || 'disconnected',
-    // 添加多模型配置支持
-    multipleModels: false,
-    models: [
-      {
-        id: 'default',
-        name: '默认模型',
-        type: 'GPT-4',
-        apiKey: '********',
-        temperature: 0.7,
-        isActive: true
-      }
-    ]
-  });
-
-  // 处理模型配置变更
-  const handleModelConfigChange = (e) => {
-    const { name, value } = e.target;
-    setModelConfig({
-      ...modelConfig,
-      [name]: name === 'multipleModels' ? e.target.checked : value
-    });
-  };
-
-  // 处理向量库配置变更
-  const handleVectorConfigChange = (e) => {
-    const { name, value } = e.target;
-    setVectorConfig({
-      ...vectorConfig,
-      [name]: name === 'multipleVectors' ? e.target.checked : value
-    });
-  };
-
-  // 处理单个模型配置变更
-  const handleModelItemChange = (modelId, field, value) => {
-    setModelConfig({
-      ...modelConfig,
-      models: modelConfig.models.map(model => 
-        model.id === modelId ? { ...model, [field]: value } : model
-      )
-    });
-  };
-
-  // 处理单个向量库配置变更
-  const handleVectorItemChange = (vectorId, field, value) => {
-    setVectorConfig({
-      ...vectorConfig,
-      vectors: vectorConfig.vectors.map(vector => 
-        vector.id === vectorId ? { ...vector, [field]: value } : vector
-      )
-    });
-  };
-
-  // 添加新的模型配置
-  const addModelConfig = () => {
-    const newId = `model-${Date.now()}`;
-    setModelConfig({
-      ...modelConfig,
-      models: [
-        ...modelConfig.models,
-        {
-          id: newId,
-          name: `模型 ${modelConfig.models.length + 1}`,
-          type: 'GPT-3.5',
-          apiKey: '',
-          temperature: 0.7,
-          isActive: false
-        }
-      ]
-    });
-  };
-
-  // 添加新的向量库配置
-  const addVectorConfig = () => {
-    const newId = `vector-${Date.now()}`;
-    setVectorConfig({
-      ...vectorConfig,
-      vectors: [
-        ...vectorConfig.vectors,
-        {
-          id: newId,
-          name: `向量库 ${vectorConfig.vectors.length + 1}`,
-          type: 'Pinecone',
-          host: '',
-          port: 433,
-          isActive: false
-        }
-      ]
-    });
-  };
-
-  // 删除模型配置
-  const removeModelConfig = (modelId) => {
-    setModelConfig({
-      ...modelConfig,
-      models: modelConfig.models.filter(model => model.id !== modelId)
-    });
-  };
-
-  // 删除向量库配置
-  const removeVectorConfig = (vectorId) => {
-    setVectorConfig({
-      ...vectorConfig,
-      vectors: vectorConfig.vectors.filter(vector => vector.id !== vectorId)
-    });
-  };
-
-  // 设置活跃模型
-  const setActiveModel = (modelId) => {
-    setModelConfig({
-      ...modelConfig,
-      models: modelConfig.models.map(model => ({
-        ...model,
-        isActive: model.id === modelId
-      }))
-    });
-  };
-
-  // 设置活跃向量库
-  const setActiveVector = (vectorId) => {
-    setVectorConfig({
-      ...vectorConfig,
-      vectors: vectorConfig.vectors.map(vector => ({
-        ...vector,
-        isActive: vector.id === vectorId
-      }))
-    });
-  };
 
   // 渲染模型配置
   const renderModelConfig = () => (
@@ -753,226 +831,6 @@ const ConfigPanel = ({ onClose, activeTab = 'database' }) => {
           <div className="stat-item">
             <div className="stat-value">156</div>
             <div className="stat-label">今日请求数</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  // 渲染向量库配置
-  const renderVectorDbConfig = () => (
-    <div className="config-form">
-      <div className="form-group switch-group">
-        <label htmlFor="multipleVectors">启用多向量库配置</label>
-        <label className="switch">
-          <input
-            type="checkbox"
-            id="multipleVectors"
-            name="multipleVectors"
-            checked={vectorConfig.multipleVectors}
-            onChange={handleVectorConfigChange}
-          />
-          <span className="slider round"></span>
-        </label>
-      </div>
-      
-      {vectorConfig.multipleVectors ? (
-        <div className="multi-vector-config">
-          <div className="vectors-header">
-            <h4>配置多个向量数据库</h4>
-            <button 
-              type="button" 
-              className="add-vector-button"
-              onClick={addVectorConfig}
-            >
-              添加向量库
-            </button>
-          </div>
-          
-          <div className="vectors-list">
-            {vectorConfig.vectors.map(vector => (
-              <div key={vector.id} className={`vector-item ${vector.isActive ? 'active' : ''}`}>
-                <div className="vector-item-header">
-                  <div className="vector-item-name">
-                    <input
-                      type="text"
-                      value={vector.name}
-                      onChange={(e) => handleVectorItemChange(vector.id, 'name', e.target.value)}
-                      placeholder="向量库名称"
-                    />
-                  </div>
-                  <div className="vector-item-actions">
-                    <button 
-                      type="button" 
-                      className={`set-active-button ${vector.isActive ? 'active' : ''}`}
-                      onClick={() => setActiveVector(vector.id)}
-                      disabled={vector.isActive}
-                    >
-                      {vector.isActive ? '当前使用' : '设为默认'}
-                    </button>
-                    {vectorConfig.vectors.length > 1 && (
-                      <button 
-                        type="button" 
-                        className="remove-vector-button"
-                        onClick={() => removeVectorConfig(vector.id)}
-                      >
-                        删除
-                      </button>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="vector-item-content">
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>向量库类型</label>
-                      <select 
-                        value={vector.type}
-                        onChange={(e) => handleVectorItemChange(vector.id, 'type', e.target.value)}
-                      >
-                        <option value="Milvus">Milvus</option>
-                        <option value="Pinecone">Pinecone</option>
-                        <option value="Faiss">Faiss</option>
-                        <option value="Weaviate">Weaviate</option>
-                        <option value="Qdrant">Qdrant</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>主机地址</label>
-                      <input 
-                        type="text" 
-                        value={vector.host}
-                        onChange={(e) => handleVectorItemChange(vector.id, 'host', e.target.value)}
-                        placeholder="例如: localhost 或 vector.example.com"
-                      />
-                    </div>
-                    
-                    <div className="form-group">
-                      <label>端口</label>
-                      <input 
-                        type="number" 
-                        value={vector.port}
-                        onChange={(e) => handleVectorItemChange(vector.id, 'port', e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>集合名称</label>
-                    <input 
-                      type="text" 
-                      value={vector.collection || ''}
-                      onChange={(e) => handleVectorItemChange(vector.id, 'collection', e.target.value)}
-                      placeholder="向量集合名称"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="vector-usage-info">
-            <div className="info-item">
-              <span className="info-label">当前使用向量库:</span>
-              <span className="info-value">{vectorConfig.vectors.find(v => v.isActive)?.name || '未设置'}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-label">向量库类型:</span>
-              <span className="info-value">{vectorConfig.vectors.find(v => v.isActive)?.type || '未设置'}</span>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="form-group">
-            <label htmlFor="vectorType">向量库类型</label>
-            <select 
-              id="vectorType" 
-              name="type" 
-              value={vectorConfig.type}
-              onChange={handleVectorConfigChange}
-            >
-              <option value="Milvus">Milvus</option>
-              <option value="Pinecone">Pinecone</option>
-              <option value="Faiss">Faiss</option>
-              <option value="Weaviate">Weaviate</option>
-              <option value="Qdrant">Qdrant</option>
-            </select>
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="vectorHost">主机地址</label>
-            <input 
-              type="text" 
-              id="vectorHost" 
-              name="host" 
-              value={vectorConfig.host}
-              onChange={handleVectorConfigChange}
-              placeholder="例如: localhost 或 vector.example.com"
-            />
-          </div>
-          
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="vectorPort">端口</label>
-              <input 
-                type="number" 
-                id="vectorPort" 
-                name="port" 
-                value={vectorConfig.port}
-                onChange={handleVectorConfigChange}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="vectorCollection">集合名称</label>
-              <input 
-                type="text" 
-                id="vectorCollection" 
-                name="collection" 
-                value={vectorConfig.collection}
-                onChange={handleVectorConfigChange}
-              />
-            </div>
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="vectorDimension">向量维度</label>
-            <input 
-              type="number" 
-              id="vectorDimension" 
-              name="dimension" 
-              value={vectorConfig.dimension}
-              onChange={handleVectorConfigChange}
-            />
-            <div className="field-hint">大多数大型语言模型使用1536维向量</div>
-          </div>
-        </>
-      )}
-
-      <div className="vector-info">
-        <h4>向量数据库信息</h4>
-        <div className="info-card">
-          <div className="info-item">
-            <span className="info-label">状态</span>
-            <span className={`status-value ${vectorConfig.status}`}>
-              {vectorConfig.status === 'connected' ? '已连接' : '未连接'}
-            </span>
-          </div>
-          <div className="info-item">
-            <span className="info-label">集合</span>
-            <span className="info-value">{vectorConfig.collection}</span>
-          </div>
-          <div className="info-item">
-            <span className="info-label">向量数量</span>
-            <span className="info-value">12,458</span>
-          </div>
-          <div className="info-item">
-            <span className="info-label">索引类型</span>
-            <span className="info-value">HNSW</span>
           </div>
         </div>
       </div>
